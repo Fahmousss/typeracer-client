@@ -14,7 +14,7 @@ export const AvatarCarousel = () => {
       autoFill
       pauseOnHover
       gradient
-      gradientWidth={200}
+      gradientWidth={300}
       gradientColor={theme === "light" ? "white" : "#09090b"}
     >
       <Avatar className="w-16 h-auto mx-3">

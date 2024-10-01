@@ -196,7 +196,7 @@ const TypingTest: React.FC = () => {
           isBlurVisible={isBlurVisible}
         />
       ) : (
-        <Skeleton className="relative px-[595.5px] py-[150px]" />
+        <Skeleton className="relative px-[170px] sm:px-[292px] md:px-[429.5px] lg:px-[595.5px]  sm:py-[150px] py-[232px]" />
       )}
       {!isFinished && !isTimeUp && (
         <InputField
