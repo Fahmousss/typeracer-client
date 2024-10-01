@@ -23,7 +23,4 @@ const InputField = forwardRef<
   />
 ));
 
-// Add displayName for better debugging
-InputField.displayName = "InputField";
-
 export default InputField;
