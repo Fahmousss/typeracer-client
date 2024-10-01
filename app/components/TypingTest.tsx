@@ -82,7 +82,9 @@ const TypingTest: React.FC = () => {
     };
   }, []);
   useEffect(() => {
-    musicRef.current.volume = isMuted ? 0 : 0.5; // Set volume (0.0 to 1.0)
+    if (musicRef.current) {
+      musicRef.current.volume = isMuted ? 0 : 0.5; // Set volume (0.0 to 1.0)
+    } // Set volume (0.0 to 1.0)
   }, [isMuted]);
 
   useEffect(() => {
