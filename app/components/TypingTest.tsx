@@ -80,11 +80,6 @@ const TypingTest: React.FC = () => {
     return () => {
       musicRef.current?.pause(); // Pause music on component unmount
     };
-  }, []);
-  useEffect(() => {
-    if (musicRef.current) {
-      musicRef.current.volume = isMuted ? 0 : 0.5; // Set volume (0.0 to 1.0)
-    } // Set volume (0.0 to 1.0)
   }, [isMuted]);
 
   useEffect(() => {
