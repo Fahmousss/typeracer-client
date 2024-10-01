@@ -3,12 +3,11 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useTheme } from "next-themes";
-// import { Avatar } from "@radix-ui/react-avatar";
 import React from "react";
 import Marquee from "react-fast-marquee";
 
 export const AvatarCarousel = () => {
-  const { theme, setTheme } = useTheme();
+  const { theme } = useTheme();
 
   return (
     <Marquee

@@ -2,21 +2,8 @@
 "use client";
 
 import { TimeLimitDropdown } from "./utils/TimeLimitDropdown";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
-import {
-  Mail,
-  MessageSquare,
-  Moon,
-  Pause,
-  Play,
-  PlusCircle,
-  Settings,
-  ShuffleIcon,
-  Sun,
-  UserPlus,
-} from "lucide-react";
-import { DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
+import { Moon, Pause, Play, Settings, ShuffleIcon, Sun } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -32,8 +19,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import { useTheme } from "next-themes";
-import { useState } from "react";
-import { SpeakerLoudIcon, SpeakerModerateIcon } from "@radix-ui/react-icons";
 
 interface ControlsProps {
   timeLeft: number;
@@ -48,7 +33,6 @@ interface ControlsProps {
 }
 
 export function Controls({
-  timeLeft,
   excludePunctuation,
   useTimeBomb,
   onChangeTimeLimit,
@@ -62,7 +46,7 @@ export function Controls({
 
   return (
     <div className="flex sm:flex-col flex-col lg:flex-row sm:justify-between p-5 gap-5">
-      <TimeLimitDropdown timeLimit={timeLeft} onChange={onChangeTimeLimit} />
+      <TimeLimitDropdown onChange={onChangeTimeLimit} />
       <div className="flex flex-row sm:flex-row lg:flex-row md:flex-row gap-5 align-middle">
         <DropdownMenu>
           <DropdownMenuTrigger asChild>

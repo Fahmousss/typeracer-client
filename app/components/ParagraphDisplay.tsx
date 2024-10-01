@@ -1,5 +1,4 @@
 // ParagraphDisplay.tsx
-import { Skeleton } from "@/components/ui/skeleton";
 
 const ParagraphDisplay: React.FC<{
   shuffledParagraph: string;
