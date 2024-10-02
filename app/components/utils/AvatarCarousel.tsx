@@ -45,7 +45,7 @@ export const AvatarCarousel = () => {
     >
       {avatarImage.map((image, index) => {
         return (
-          <Avatar className="w-16 h-auto mx-3">
+          <Avatar className="w-16 h-auto mx-3" key={index}>
             <AvatarImage src={image.src} alt={image.alt} />
             <AvatarFallback>
               <Skeleton className="rounded-full w-16 h-auto" />
