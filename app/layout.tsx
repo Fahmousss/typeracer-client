@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { ThemeProvider } from "../components/theme-provider";
-import Navbar from "@/components/ui/navbar";
 import { InformationDialog } from "./components/utils/InformationDialog";
 import StarsCanvas from "./components/utils/Star";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -45,6 +45,7 @@ export default function RootLayout({
           <div id="starsCanvasContainer">
             <StarsCanvas />
           </div>
+          <SpeedInsights />
         </ThemeProvider>
       </body>
     </html>
