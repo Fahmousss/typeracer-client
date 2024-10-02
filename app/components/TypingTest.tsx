@@ -74,9 +74,9 @@ const TypingTest: React.FC = () => {
   useEffect(() => {
     // Initialize background music
     musicRef.current = new Audio("/audio/background-music-3.mp3");
-    musicRef.current.currentTime = 0;
+    musicRef.current.currentTime = 20;
     musicRef.current.loop = true; // Loop the music
-    musicRef.current.volume = isMuted ? 0 : 0.5; // Set volume (0.0 to 1.0)
+    musicRef.current.volume = isMuted ? 0 : 1.0; // Set volume (0.0 to 1.0)
 
     // Play the music when the component mounts
     musicRef.current.play().catch((error) => {
