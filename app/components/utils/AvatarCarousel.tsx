@@ -38,7 +38,6 @@ export const AvatarCarousel = () => {
 
   return (
     <Marquee
-      autoFill
       pauseOnHover
       gradient
       gradientColor={theme === "light" ? "white" : "#09090b"}
