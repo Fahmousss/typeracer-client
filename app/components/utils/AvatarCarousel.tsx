@@ -31,7 +31,7 @@ export const AvatarCarousel = () => {
       alt: "nazif",
     },
     {
-      src: "/image/octa.jpg",
+      src: "/image/octa.JPG",
       alt: "octa",
     },
   ];
