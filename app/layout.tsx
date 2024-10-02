@@ -4,6 +4,7 @@ import "./globals.css";
 import { ThemeProvider } from "../components/theme-provider";
 import Navbar from "@/components/ui/navbar";
 import { InformationDialog } from "./components/utils/InformationDialog";
+import StarsCanvas from "./components/utils/Star";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -31,7 +32,7 @@ export default function RootLayout({
       >
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >
@@ -40,6 +41,9 @@ export default function RootLayout({
           <div className="fixed bottom-3 right-3 ">
             {/* <ModeToggle /> */}
             <InformationDialog />
+          </div>
+          <div id="starsCanvasContainer">
+            <StarsCanvas />
           </div>
         </ThemeProvider>
       </body>

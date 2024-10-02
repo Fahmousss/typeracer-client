@@ -1,7 +1,8 @@
 import { Button } from "@/components/ui/button";
 import TypingTest from "./components/TypingTest";
 import Navbar from "@/components/ui/navbar";
-import { Info } from "lucide-react";
+import { Info, Rocket } from "lucide-react";
+import Link from "next/link";
 // import { ModeToggle } from "./components/utils/toggle";
 
 export default function Home() {
@@ -10,9 +11,13 @@ export default function Home() {
       {/* The main content */}
       <main className="flex flex-col gap-8 row-start-2 items-center sm:items-center">
         <TypingTest />
+        <Link
+          href="wordbyword"
+          className="underline decoration-wavy decoration-cyan-500 underline-offset-2 hover:scale-125 transition ease-in-out duration-700 font-[family-name:var(--font-geist-mono)]"
+        >
+          Click here to typing word by word!🚀
+        </Link>
       </main>
-
-      {/* Sticky Mode Toggle in the bottom-right corner */}
     </div>
   );
 }

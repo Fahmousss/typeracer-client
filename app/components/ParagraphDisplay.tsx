@@ -25,10 +25,17 @@ const ParagraphDisplay: React.FC<{
       className="select-none text-2xl sm:text-4xl text-gray-400"
     >
       {shuffledParagraph.split("").map((char, index) => {
-        const isError = inputValue.length > index && char !== inputValue[index];
+        const isError =
+          inputValue.length > index &&
+          char !== inputValue[index] &&
+          char !== " ";
         const isCorrect =
           inputValue.length > index && char === inputValue[index];
 
+        const isCharSpaced =
+          inputValue.length > index &&
+          char === " " &&
+          inputValue[index] !== char;
         return (
           <span
             key={index}
@@ -37,6 +44,8 @@ const ParagraphDisplay: React.FC<{
                 ? "text-red-700"
                 : isCorrect
                 ? "text-green-500"
+                : isCharSpaced
+                ? "bg-red-700"
                 : "text-gray-400"
             }`}
           >

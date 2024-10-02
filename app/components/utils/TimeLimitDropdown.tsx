@@ -16,7 +16,7 @@ interface TimeLimitDropdownProps {
 }
 
 export function TimeLimitDropdown({ onChange }: TimeLimitDropdownProps) {
-  const timeOptions = [10, 20, 30, 40, 50, 60];
+  const timeOptions = [10, 20, 30, 40, 50, 60, 90, 120];
   return (
     <Select onValueChange={(value) => onChange(Number(value))}>
       <SelectTrigger className="w-[180px]">

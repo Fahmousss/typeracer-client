@@ -49,7 +49,13 @@ const TypingTest: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true); // State for loading
   const [useTimeBomb, setUseTimeBomb] = useState<boolean>(true); // Toggle for enabling/disabling the timer (time bomb)
   const musicRef = useRef<HTMLAudioElement | null>(null);
-  const [isMuted, setIsMuted] = useState<boolean>(false);
+  const [isMuted, setIsMuted] = useState<boolean>(true);
+
+  // State for WPM and CPM
+  const [wpm, setWpm] = useState<number>(0);
+  const [cpm, setCpm] = useState<number>(0);
+
+  // Badges and titles based on WPM/CPM
 
   useEffect(() => {
     const generateParagraph = async () => {
@@ -67,7 +73,7 @@ const TypingTest: React.FC = () => {
 
   useEffect(() => {
     // Initialize background music
-    musicRef.current = new Audio("/background-music-2.mp3");
+    musicRef.current = new Audio("/audio/background-music-3.mp3");
     musicRef.current.currentTime = 0;
     musicRef.current.loop = true; // Loop the music
     musicRef.current.volume = isMuted ? 0 : 0.5; // Set volume (0.0 to 1.0)
@@ -81,7 +87,6 @@ const TypingTest: React.FC = () => {
       musicRef.current?.pause(); // Pause music on component unmount
     };
   }, [isMuted]);
-
   useEffect(() => {
     let timer: NodeJS.Timeout;
 
@@ -96,23 +101,48 @@ const TypingTest: React.FC = () => {
     ) {
       timer = setInterval(() => {
         setTimeLeft((prev) => prev - 1);
+        calculateWpmCpm(); // Call WPM/CPM calculation
       }, 1000);
     } else if (timeLeft === 0) {
       setIsTimeUp(true);
+      setIsFinished(true);
     }
 
     return () => clearInterval(timer); // Cleanup timer on component unmount
   }, [timeLeft, isFinished, isTimeUp, timerStarted, isPaused, useTimeBomb]);
+
+  // Function to calculate correct WPM and CPM based on the input
+  const calculateWpmCpm = () => {
+    const minutesPassed = (timeLimitRef.current - timeLeft) / 60;
+
+    // Split the input and shuffled paragraph into words
+    const inputWords = inputValue.trim().split(/\s+/);
+    const paragraphWords = shuffledParagraph.split(/\s+/);
+
+    // Calculate correct words and characters
+    const correctWords = inputWords.filter(
+      (word, index) => word === paragraphWords[index]
+    ).length;
+    const correctChars = inputWords.reduce((charCount, word, index) => {
+      if (word === paragraphWords[index]) {
+        return charCount + word.length;
+      }
+      return charCount;
+    }, 0);
+
+    // Calculate WPM and CPM based on correct input only
+    if (minutesPassed > 0) {
+      setWpm(Math.round(correctWords / minutesPassed));
+      setCpm(Math.round(correctChars / minutesPassed));
+    }
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value; // Get the input value
     setInputValue(value); // Update the input value
 
     // Check if the input matches the entire paragraph
-    if (
-      value === shuffledParagraph &&
-      value.length === shuffledParagraph.length
-    ) {
+    if (value === shuffledParagraph) {
       setIsFinished(true); // Mark as finished if the entire paragraph is typed correctly
     }
   };
@@ -139,8 +169,8 @@ const TypingTest: React.FC = () => {
 
   const handleMute = () => {
     setIsMuted(!isMuted);
-    //  console.log(isMuted);
   };
+
   const handleRestart = () => {
     // Reset input, finish state, and timer
     setInputValue("");
@@ -153,6 +183,8 @@ const TypingTest: React.FC = () => {
       getShuffledParagraph(fullParagraph, excludePunctuation)
     ); // Shuffle the paragraph
     setIsBlurVisible(true);
+    setWpm(0); // Reset WPM
+    setCpm(0); // Reset CPM
   };
 
   const handleTimeLimitChange = (newTime: number) => {
@@ -188,13 +220,22 @@ const TypingTest: React.FC = () => {
         muteAudio={handleMute}
         isMuted={isMuted}
       />
+      <div
+        className={`relative px-5 justify-center flex text-4xl transition-opacity select-none text-orange-400 font-medium duration-500 ${
+          isBlurVisible ? "opacity-0" : "opacity-100"
+        }`}
+      >
+        Start Typing!
+      </div>
       {!loading ? (
-        <ParagraphDisplay
-          shuffledParagraph={shuffledParagraph}
-          inputValue={inputValue}
-          onParagraphClick={handleParagraphClick}
-          isBlurVisible={isBlurVisible}
-        />
+        <>
+          <ParagraphDisplay
+            shuffledParagraph={shuffledParagraph}
+            inputValue={inputValue}
+            onParagraphClick={handleParagraphClick}
+            isBlurVisible={isBlurVisible}
+          />
+        </>
       ) : (
         <Skeleton className="relative px-[170px] sm:px-[292px] md:px-[429.5px] lg:px-[595.5px]  sm:py-[150px] py-[232px]" />
       )}
@@ -208,10 +249,13 @@ const TypingTest: React.FC = () => {
           ref={inputRef}
         />
       )}
+
       <ResultMessage
         isFinished={isFinished}
         isTimeUp={isTimeUp}
         handleRestart={handleRestart}
+        wpm={wpm}
+        cpm={cpm}
       />
     </div>
   );
