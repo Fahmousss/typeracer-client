@@ -56,7 +56,7 @@ export const AvatarCarousel = () => {
     >
       {avatarImage.map((image, index) => {
         return (
-          <TooltipProvider>
+          <TooltipProvider key={index}>
             <Tooltip delayDuration={100}>
               <TooltipTrigger>
                 <Avatar className="w-24 h-24 mx-3" key={index}>
