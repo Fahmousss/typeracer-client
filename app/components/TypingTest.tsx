@@ -16,7 +16,7 @@ function shuffleArray(array: string[]) {
 
 // Function to remove punctuation from a string
 function removePunctuation(text: string) {
-  return text.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?"']/g, "");
+  return text.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?"']/g, " ");
 }
 
 // Function to get a shuffled paragraph
