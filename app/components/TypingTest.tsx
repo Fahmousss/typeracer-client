@@ -225,7 +225,7 @@ const TypingTest: React.FC = () => {
           isBlurVisible ? "opacity-0" : "opacity-100"
         }`}
       >
-        Start Typing!
+        Mulai Mengetik!
       </div>
       {!loading ? (
         <>

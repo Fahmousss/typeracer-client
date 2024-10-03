@@ -15,7 +15,7 @@ export default function Home() {
           href="wordbyword"
           className="underline decoration-wavy decoration-cyan-500 underline-offset-2 hover:scale-125 transition ease-in-out duration-700 font-[family-name:var(--font-geist-mono)]"
         >
-          Click here to typing word by word!🚀
+          Belajar mengetik per kata!🚀
         </Link>
       </main>
     </div>

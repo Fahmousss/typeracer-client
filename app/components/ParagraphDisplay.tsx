@@ -16,7 +16,9 @@ const ParagraphDisplay: React.FC<{
         }`}
         onClick={onParagraphClick}
       >
-        <p className="dark:text-white text-xl">Click here to play</p>
+        <p className="dark:text-white sm:text-6xl text-center text-3xl hover:scale-125 transition ease-in-out duration-700  ">
+          Klik disini untuk mulai
+        </p>
       </div>
     }
 

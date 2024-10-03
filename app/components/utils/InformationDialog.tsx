@@ -10,6 +10,7 @@ import {
 
 import { InfoIcon } from "lucide-react";
 import { AvatarCarousel } from "./AvatarCarousel";
+import { Separator } from "@/components/ui/separator";
 
 export function InformationDialog() {
   return (
@@ -22,9 +23,9 @@ export function InformationDialog() {
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
-            <DialogTitle>Developer</DialogTitle>
-            <DialogDescription>Meet the developer</DialogDescription>
+            <DialogTitle className="text-center">Developer</DialogTitle>
           </DialogHeader>
+          <Separator className="mb-4" />
           <AvatarCarousel />
         </DialogContent>
       </Dialog>
