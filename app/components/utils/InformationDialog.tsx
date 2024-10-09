@@ -2,7 +2,6 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -21,7 +20,7 @@ export function InformationDialog() {
             <InfoIcon />
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-lg max-w-sm">
           <DialogHeader>
             <DialogTitle className="text-center">Developer</DialogTitle>
           </DialogHeader>

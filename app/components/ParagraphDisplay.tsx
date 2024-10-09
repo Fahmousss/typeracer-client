@@ -5,26 +5,32 @@ const ParagraphDisplay: React.FC<{
   inputValue: string;
   onParagraphClick: () => void;
   isBlurVisible: boolean;
-}> = ({ shuffledParagraph, inputValue, onParagraphClick, isBlurVisible }) => (
+  children: any;
+}> = ({
+  shuffledParagraph,
+  inputValue,
+  onParagraphClick,
+  isBlurVisible,
+  children,
+}) => (
   <div className="relative p-5 font-[family-name:var(--font-geist-mono)]">
-    {
-      <div
-        className={`absolute flex inset-3 justify-center items-center bg-opacity-50 backdrop-blur-sm z-50 transition-all  select-none duration-500 ${
-          isBlurVisible
-            ? "opacity-100 cursor-pointer"
-            : "opacity-0 pointer-events-none"
-        }`}
-        onClick={onParagraphClick}
-      >
-        <p className="dark:text-white sm:text-6xl text-center text-3xl hover:scale-125 transition ease-in-out duration-700  ">
-          Klik disini untuk mulai
-        </p>
-      </div>
-    }
+    <div
+      className={`absolute flex inset-3 justify-center items-center bg-opacity-50 backdrop-blur-sm z-50 transition-all  select-none duration-500 ${
+        isBlurVisible
+          ? "opacity-100 cursor-pointer"
+          : "opacity-0 pointer-events-none"
+      }`}
+      onClick={onParagraphClick}
+    >
+      <p className="dark:text-white md:text-5xl text-center text-3xl hover:scale-110 transition ease-in-out duration-700  ">
+        Klik disini untuk mulai
+      </p>
+    </div>
+    {children}
 
     <p
       id="paragraph"
-      className="select-none text-2xl sm:text-4xl text-gray-400"
+      className="select-none text-2xl md:text-4xl text-gray-400"
     >
       {shuffledParagraph.split("").map((char, index) => {
         const isError =

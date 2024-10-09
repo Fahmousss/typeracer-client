@@ -5,6 +5,8 @@ import { ThemeProvider } from "../components/theme-provider";
 import { InformationDialog } from "./components/utils/InformationDialog";
 import StarsCanvas from "./components/utils/Star";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Backsound } from "./components/utils/Backsound";
+import { LeaderboardDialog } from "./components/utils/LeaderboardDialog";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -38,8 +40,10 @@ export default function RootLayout({
         >
           {/* <Navbar /> */}
           {children}
-          <div className="fixed bottom-3 right-3 ">
+          <div className="fixed flex gap-4 z-50 bottom-3 right-3 ">
             {/* <ModeToggle /> */}
+            <LeaderboardDialog />
+            <Backsound />
             <InformationDialog />
           </div>
           <div id="starsCanvasContainer">

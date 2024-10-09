@@ -8,6 +8,8 @@ import ParagraphDisplay from "@/app/components/ParagraphDisplay";
 import InputField from "@/app/components/InputField";
 import ResultMessage from "@/app/components/ResultMessage";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
+import { RotateCcw } from "lucide-react";
 
 // Helper function to shuffle an array
 function shuffleArray(array: string[]) {
@@ -16,7 +18,7 @@ function shuffleArray(array: string[]) {
 
 // Function to remove punctuation from a string
 function removePunctuation(text: string) {
-  return text.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?"']/g, " ");
+  return text.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()?"']/g, "");
 }
 
 // Function to get a shuffled paragraph
@@ -30,11 +32,11 @@ function getShuffledParagraph(paragraph: string, excludePunctuation: boolean) {
 
   const wordsArray = modifiedParagraph.split(" ");
   const shuffledArray = shuffleArray(wordsArray);
-  const slicedArray = shuffledArray.slice(0, 50); // Get first 50 words
+  const slicedArray = shuffledArray.slice(0, 30); // Get first 50 words
   return slicedArray.join(" ");
 }
 
-const TypingTest: React.FC = () => {
+const TypingTest: React.FC<{ userId: any }> = ({ userId }) => {
   const inputRef = useRef<HTMLInputElement | null>(null); // Reference to the input field
   const timeLimitRef = useRef<number>(30); // Ref to store the current time limit
   const [inputValue, setInputValue] = useState<string>(""); // Input value for typing
@@ -48,8 +50,6 @@ const TypingTest: React.FC = () => {
   const [isBlurVisible, setIsBlurVisible] = useState<boolean>(true); // Control visibility of blur layer
   const [loading, setLoading] = useState<boolean>(true); // State for loading
   const [useTimeBomb, setUseTimeBomb] = useState<boolean>(true); // Toggle for enabling/disabling the timer (time bomb)
-  const musicRef = useRef<HTMLAudioElement | null>(null);
-  const [isMuted, setIsMuted] = useState<boolean>(true);
 
   // State for WPM and CPM
   const [wpm, setWpm] = useState<number>(0);
@@ -72,22 +72,6 @@ const TypingTest: React.FC = () => {
   }, [excludePunctuation]); // Rerun effect when excludePunctuation changes
 
   useEffect(() => {
-    // Initialize background music
-    musicRef.current = new Audio("/audio/background-music-3.mp3");
-    musicRef.current.currentTime = 20;
-    musicRef.current.loop = true; // Loop the music
-    musicRef.current.volume = isMuted ? 0 : 1.0; // Set volume (0.0 to 1.0)
-
-    // Play the music when the component mounts
-    musicRef.current.play().catch((error) => {
-      console.error("Error playing music:", error);
-    });
-
-    return () => {
-      musicRef.current?.pause(); // Pause music on component unmount
-    };
-  }, [isMuted]);
-  useEffect(() => {
     let timer: NodeJS.Timeout;
 
     // Start the timer when the test begins, only if the time bomb is active
@@ -103,9 +87,14 @@ const TypingTest: React.FC = () => {
         setTimeLeft((prev) => prev - 1);
         calculateWpmCpm(); // Call WPM/CPM calculation
       }, 1000);
-    } else if (timeLeft === 0) {
+    } else if (timeLeft === 0 && useTimeBomb) {
       setIsTimeUp(true);
-      setIsFinished(true);
+      //   setIsFinished(true);
+    } else if (!useTimeBomb && !isFinished && timerStarted && !isPaused) {
+      timer = setInterval(() => {
+        setTimeLeft((prev) => prev + 1);
+        calculateWpmCpm(); // Call WPM/CPM calculation
+      }, 1000);
     }
 
     return () => clearInterval(timer); // Cleanup timer on component unmount
@@ -113,8 +102,6 @@ const TypingTest: React.FC = () => {
 
   // Function to calculate correct WPM and CPM based on the input
   const calculateWpmCpm = () => {
-    const minutesPassed = (timeLimitRef.current - timeLeft) / 60;
-
     // Split the input and shuffled paragraph into words
     const inputWords = inputValue.trim().split(/\s+/);
     const paragraphWords = shuffledParagraph.split(/\s+/);
@@ -129,11 +116,17 @@ const TypingTest: React.FC = () => {
       }
       return charCount;
     }, 0);
+    if (useTimeBomb) {
+      const minutesPassed = (timeLimitRef.current - timeLeft) / 60;
 
-    // Calculate WPM and CPM based on correct input only
-    if (minutesPassed > 0) {
-      setWpm(Math.round(correctWords / minutesPassed));
-      setCpm(Math.round(correctChars / minutesPassed));
+      // Calculate WPM and CPM based on correct input only
+      if (minutesPassed > 0) {
+        setWpm(Math.round(correctWords / minutesPassed));
+        setCpm(Math.round(correctChars / minutesPassed));
+      }
+    } else {
+      setWpm(Math.round(correctWords / (timeLeft / 60)));
+      setCpm(Math.round(correctChars / (timeLeft / 60)));
     }
   };
 
@@ -167,10 +160,6 @@ const TypingTest: React.FC = () => {
     setIsBlurVisible(true); // Show the blur layer when blurred
   };
 
-  const handleMute = () => {
-    setIsMuted(!isMuted);
-  };
-
   const handleRestart = () => {
     // Reset input, finish state, and timer
     setInputValue("");
@@ -202,7 +191,12 @@ const TypingTest: React.FC = () => {
   };
 
   const toggleTimeBomb = () => {
-    setUseTimeBomb(!useTimeBomb); // Toggle the use of the time bomb (timer)
+    setUseTimeBomb(!useTimeBomb);
+    if (!useTimeBomb) {
+      timeLimitRef.current = 30;
+    } else {
+      timeLimitRef.current = 0;
+    }
     handleRestart();
   };
 
@@ -217,11 +211,9 @@ const TypingTest: React.FC = () => {
         toggleTimeBomb={toggleTimeBomb} // Add toggleTimeBomb function
         useTimeBomb={useTimeBomb} // Pass the time bomb state
         handleRestart={handleRestart}
-        muteAudio={handleMute}
-        isMuted={isMuted}
       />
       <div
-        className={`relative px-5 justify-center flex text-4xl transition-opacity select-none text-orange-400 font-medium duration-500 ${
+        className={`relative px-5 justify-center flex text-3xl transition-opacity select-none text-orange-400 font-medium duration-500 ${
           isBlurVisible ? "opacity-0" : "opacity-100"
         }`}
       >
@@ -234,29 +226,45 @@ const TypingTest: React.FC = () => {
             inputValue={inputValue}
             onParagraphClick={handleParagraphClick}
             isBlurVisible={isBlurVisible}
-          />
+          >
+            {!isFinished && !isTimeUp && (
+              <InputField
+                maxLength={shuffledParagraph.length}
+                inputValue={inputValue}
+                onInputChange={handleInputChange}
+                onFocus={handleInputFocus}
+                onBlur={handleInputBlur}
+                ref={inputRef}
+              />
+            )}
+          </ParagraphDisplay>
         </>
       ) : (
-        <Skeleton className="relative px-[170px] sm:px-[292px] md:px-[429.5px] lg:px-[595.5px]  sm:py-[150px] py-[232px]" />
-      )}
-      {!isFinished && !isTimeUp && (
-        <InputField
-          maxLength={shuffledParagraph.length}
-          inputValue={inputValue}
-          onInputChange={handleInputChange}
-          onFocus={handleInputFocus}
-          onBlur={handleInputBlur}
-          ref={inputRef}
-        />
+        <Skeleton className="relative px-96 py-36" />
       )}
 
-      <ResultMessage
-        isFinished={isFinished}
-        isTimeUp={isTimeUp}
-        handleRestart={handleRestart}
-        wpm={wpm}
-        cpm={cpm}
-      />
+      {isFinished ||
+        (isTimeUp && (
+          <>
+            <ResultMessage
+              isFinished={isFinished}
+              isTimeUp={isTimeUp}
+              handleRestart={handleRestart}
+              wpm={wpm}
+              cpm={cpm}
+              userId={userId}
+            />
+            <div className="flex justify-center">
+              <Button
+                variant="ghost"
+                className="text-gray-400"
+                onClick={handleRestart}
+              >
+                <RotateCcw className="mr-2 w-4 h-4" /> Try Again
+              </Button>
+            </div>
+          </>
+        ))}
     </div>
   );
 };

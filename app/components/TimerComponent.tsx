@@ -1,4 +1,3 @@
-// TimerDisplay.tsx
 import { AlarmClock } from "lucide-react";
 
 const TimerDisplay: React.FC<{ timeLeft: number }> = ({ timeLeft }) => (

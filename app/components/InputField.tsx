@@ -19,7 +19,7 @@ const InputField = forwardRef<
     onChange={onInputChange}
     onFocus={onFocus}
     onBlur={onBlur}
-    className="w-full h-full opacity-0 cursor-none inset-1 -z-10 absolute"
+    className="w-full h-full opacity-0 cursor-none inset-3 -z-10 absolute"
     autoComplete="off"
   />
 ));
