@@ -53,7 +53,7 @@ export function UserLeaderboard({ userName, children }: any) {
           <div className="">
             <div className="flex flex-row gap-7 p-2 border rounded-sm justify-between">
               <div className="flex flex-row gap-3">
-                <p className="text-xs">Rank</p>
+                <p className="text-xs">No</p>
                 <p className="text-xs">Name</p>
               </div>
               <div className="flex flex-row gap-3">
